@@ -5,36 +5,36 @@ var con = require("../config/db");
 router.get("/", (req, res) => {
   con.query("select * from users", (err, data) => {
     if (err) {
-      res.send({ data: "ERROR!" });
+      res.status(500).send({ data: "ERROR!" });
     }
-    res.send({ data: data });
+    res.status(200).send({ data: data });
   });
 });
 
 router.get("/:id", (req, res) => {
   let id = req.params.id;
   if (!id) {
-    res.send({ err: "id not found!" });
+    res.status(500).send({ err: "id not found!" });
   }
   con.query(`select * from users where id=${id}`, (err, data) => {
     if (err) {
-      res.send({ err: "Err in db!" });
+      res.status(500).send({ err: "Err in db!" });
     }
-    res.send({ data: data });
+    res.status(200).send({ data: data });
   });
 });
 
 router.post("/", (req, res) => {
   let newUserData = req.body;
   if (!newUserData || !newUserData.name) {
-    res.send({ err: "Data invalid" });
+    res.status(500).send({ err: "Data invalid" });
   }
   let query = `insert into users (name) values ('${newUserData.name}')`;
   con.query(query, (err, data) => {
     if (err) {
-      res.send({ err: "Err with db" });
+      res.status(500).send({ err: "Err with db" });
     }
-    res.send({ message: "successfully inserted!" });
+    res.status(200).send({ message: "successfully inserted!" });
   });
 });
 
@@ -42,28 +42,28 @@ router.put("/:id", (req, res) => {
   let id = req.params.id;
   let newData = req.body;
   if (!id) {
-    res.send({ err: "id not found" });
+    res.status(500).send({ err: "id not found" });
   }
   let query = `update users set name='${newData.name}' where id=${id}`;
   con.query(query, (err, data) => {
     if (err) {
-      res.send({ err: "Err with db" });
+      res.status(500).send({ err: "Err with db" });
     }
-    res.send({ message: "updated!" });
+    res.status(200).send({ message: "updated!" });
   });
 });
 
 router.delete("/:id", (req, res) => {
   let id = req.params.id;
   if (!id) {
-    res.send({ err: "id not found" });
+    res.status(500).send({ err: "id not found" });
   }
   let query = `delete from users where id=${id}`;
   con.query(query, (err, data) => {
     if (err) {
-      res.send({ err: "Err with db" });
+      res.status(500).send({ err: "Err with db" });
     }
-    res.send({ message: "deleted!" });
+    res.status(200).send({ message: "deleted!" });
   });
 });
 

@@ -5,10 +5,10 @@ var con = require("../config/db");
 router.get("/", (req, res) => {
   con.query("select * from products", (err, data) => {
     if (err) {
-      res.send({ data: "ERROR!" });
+      res.status(500).send({ data: "ERROR!" });
     }
     console.log("data from db: ", data);
-    res.send({ data: data });
+    res.status(200).send({ data: data });
   });
 });
 
